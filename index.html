@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agent Unveil</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 18px;
+    background-color: #d0ebff;
+}
+header {
+    background: linear-gradient(rgba(30,136,229,0.55), rgba(30,136,229,0.55)),
+                url('https://img.freepik.com/free-photo/blue-wall-background_53876-88663.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 5px 20px;
+    border-bottom: 8px solid #00c16e;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.title-heading {
+    background-color: white;
+    color: #000;
+    font-weight: 700;
+    font-size: 28px;
+    padding: 5px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+}
+.subtitle {
+    margin-top: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0.8;
+    animation: blink 3s infinite ease-in-out;
+}
+@keyframes blink { 0%{opacity:.2;} 50%{opacity:1;} 100%{opacity:.2;} }
+.about-box {
+    display: inline-block;
+    background: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #000;
+    margin: 20px auto;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+.upload-container {
+    max-width: 650px;
+    margin: 25px auto;
+    text-align: center;
+}
+/* WIDE toggle button */
+.toggle-upload-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #005bbb;
+    color: white;
+    border: none;
+    font-size: 18px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    justify-content: center;
+}
+.toggle-upload-btn img { width: 26px; }
+/* Loader styles */
+.loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+    display: none;
+}
+.loading-text {
+    font-size: 20px;
+    color: #555;
+    font-weight: 500;
+    display: none;
+    align-items: center;
+}
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+/* Upload Section Box */
+#uploadSection {
+    background: white;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.upload-title {
+    font-size: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.upload-box {
+    border: 2px dashed #00c16e;
+    padding: 25px;
+    border-radius: 12px;
+    background: white;
+}
+.upload-icon {
+    width: 45px;
+    opacity: .6;
+    margin-bottom: 10px;
+}
+.browse-btn,
+.camera-btn {
+    padding: 12px;
+    border-radius: 10px;
+    display: flex;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+}
+.browse-btn { background: #e9eef5; }
+.browse-btn img, .camera-btn img { width: 24px; }
+.camera-btn { background: #dff4ff; border: 2px solid #a8ddff; color: #0077cc; }
+#preview { display: none; max-width: 100%; margin-top: 20px; border-radius: 10px; }
+/* Camera Modal */
+.camera-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+}
+.camera-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+#cameraVideo { width: 320px; border-radius: 6px; }
+.capture-btn {
+    margin-top: 10px; padding: 10px;
+    background: #0d6efd; color: white;
+    border: none; border-radius: 6px; cursor: pointer;
+}
+.close-btn {
+    margin-top: 10px; padding: 8px 12px;
+    background: #dc3545; color: white;
+    border: none; border-radius: 6px; cursor: pointer;
+}
+/* Hide animation */
+.hiddenBox {
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    padding: 0 !important;
+    margin: 0 !important;
+    transition: all .25s ease;
+}
+/* Buttons */
+.submit-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #00c16e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.cancel-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.Output {
+    max-width: 650px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.Output pre {
+    background: #f8f9fb;
+    border-left: 5px solid #4A90E2;
+    padding: 15px 20px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+}
+footer { background-color: green; color: white; text-align: center; padding: 4px 0; font-size: 12px; border-radius: 6px; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<header>
+<h1 class="title-heading">Agent Unveil</h1>
+<div class="subtitle">A Smart Detection Agent for Brand Misrepresentation</div>
+</header>
+
+<main style="text-align:center;">
+<div class="about-box">
+About: The AI agent that identifies misleading product advertisements.
+</div>
+</main>
+
+<div class="upload-container">
+
+<!-- WIDE TOGGLE BUTTON -->
+<button class="toggle-upload-btn" onclick="toggleUpload()">
+    <img src="https://cdn-icons-png.flaticon.com/512/1827/1827951.png">
+    Toggle Upload Box
+</button>
+
+<form id="inputForm" action="/process" method="post" enctype="multipart/form-data">
+
+<!-- Upload Section -->
+<div id="uploadSection">
+
+    <div class="upload-title">Upload Product Image</div>
+
+    <div class="upload-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/109/109612.png" class="upload-icon">
+        <p>Drag & drop image or select an option</p>
+
+        <!-- Browse -->
+        <label class="browse-btn">
+            <img src="https://cdn-icons-png.flaticon.com/512/4370/4370566.png">
+            Browse Files
+            <input type="file" id="imageInput" name="image" accept="image/*" hidden>
+        </label>
+
+        <!-- Camera -->
+        <label class="camera-btn" id="cameraBtn">📷 Take Photo</label>
+    </div>
+</div>
+
+<img id="preview">
+
+<div style="margin-top:15px; display:flex; gap:12px; justify-content:center;">
+    <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+    <button type="button" class="cancel-btn" id="cancelBtn" style="display:none;">Cancel</button>
+</div>
+</form>
+</div>
+
+<!-- Camera Modal -->
+<div id="cameraModal" class="camera-modal">
+    <div class="camera-box">
+        <video id="cameraVideo" autoplay playsinline></video>
+        <button id="captureBtn" class="capture-btn">Click Photo</button>
+        <canvas id="cameraCanvas" style="display:none;"></canvas>
+        <button id="closeCamera" class="close-btn">Cancel</button>
+    </div>
+</div>
+
+<!-- Loader -->
+<div class="loader-container">
+    <div id="loader" class="loader"></div>
+    <div id="loading-text" class="loading-text">🧐 Understanding... Please wait!</div>
+</div>
+
+<div class="Output">
+    {% if extracted_text %}
+        <h2>Findings</h2>
+        <pre>{{ extracted_text|safe }}</pre>
+    {% endif %}
+    {% if gemini_text %}
+        <h2>Key Data</h2>
+        <pre>{{ gemini_text|safe }}</pre>
+    {% endif %}
+    {% if search_results %}
+        <h2>web search Data</h2>
+        <pre>{{ search_results|safe }}</pre>
+    {% else %}
+        <p>No search results found</p>
+    {% endif %}
+    {% if gemini_conclusion %}
+        <h2>Final Analysis</h2>
+        <pre>{{ gemini_conclusion|safe }}</pre>
+    {% endif %}
+</div>
+
+<footer><p>© 2025 AIgnition</p></footer>
+
+<script>
+/* Toggle Upload Box */
+function toggleUpload() {
+    document.getElementById("uploadSection").classList.toggle("hiddenBox");
+}
+
+/* Inputs */
+const imageInput = document.getElementById("imageInput");
+const preview = document.getElementById("preview");
+const cancelBtn = document.getElementById("cancelBtn");
+const loader = document.getElementById('loader');
+const loadingText = document.getElementById('loading-text');
+const form = document.getElementById('inputForm');
+
+/* Common preview handler */
+function showPreview(file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+        preview.src = reader.result;
+        preview.style.display = "block";
+        cancelBtn.style.display = "inline-block";
+        document.getElementById("uploadSection").classList.add("hiddenBox");
+    };
+    reader.readAsDataURL(file);
+}
+
+/* Browse */
+imageInput.addEventListener("change", () => {
+    const file = imageInput.files[0];
+    if (file) showPreview(file);
+});
+
+/* Cancel */
+cancelBtn.addEventListener("click", () => {
+    preview.style.display = "none";
+    preview.src = "";
+    imageInput.value = "";
+    document.getElementById("uploadSection").classList.remove("hiddenBox");
+    cancelBtn.style.display = "none";
+});
+
+/* Camera Logic */
+const cameraBtn = document.getElementById("cameraBtn");
+const cameraModal = document.getElementById("cameraModal");
+const cameraVideo = document.getElementById("cameraVideo");
+const cameraCanvas = document.getElementById("cameraCanvas");
+const captureBtn = document.getElementById("captureBtn");
+const closeCamera = document.getElementById("closeCamera");
+
+let stream;
+
+cameraBtn.onclick = async () => {
+    cameraModal.style.display = "flex";
+    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    cameraVideo.srcObject = stream;
+};
+
+captureBtn.onclick = () => {
+    const context = cameraCanvas.getContext("2d");
+    cameraCanvas.width = cameraVideo.videoWidth;
+    cameraCanvas.height = cameraVideo.videoHeight;
+    context.drawImage(cameraVideo, 0, 0);
+
+    stream.getTracks().forEach(track => track.stop());
+
+    const imageData = cameraCanvas.toDataURL("image/png");
+    
+    preview.src = imageData;
+    preview.style.display = "block";
+    cancelBtn.style.display = "inline-block";
+    document.getElementById("uploadSection").classList.add("hiddenBox");
+
+    cameraModal.style.display = "none";
+};
+
+closeCamera.onclick = () => {
+    if(stream) stream.getTracks().forEach(track => track.stop());
+    cameraModal.style.display = "none";
+}
+
+/* Show loader on submit */
+form.addEventListener('submit', (e) => {
+    loader.style.display = 'block';
+    loadingText.style.display = 'flex';
+});
+</script>
+
+</body>
+</html>
