@@ -9,3 +9,6 @@ beautifulsoup4==4.12.3
 lxml==5.2.1
 selenium==4.23.1
 torch==2.1.2
+opencv-python
+easyocr
+torch
