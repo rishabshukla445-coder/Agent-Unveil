@@ -1,0 +1,11 @@
+Flask
+opencv-python
+numpy
+easyocr
+Pillow
+google-generativeai
+requests
+beautifulsoup4
+lxml
+selenium
+torch
