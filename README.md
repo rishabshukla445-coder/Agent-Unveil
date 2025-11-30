@@ -1,8 +1,7 @@
-Project : Agent Unveil<img width="1279" height="315" alt="image" src="https://github.com/user-attachments/assets/b3dc9bbd-40e3-4e33-a662-93d45a7e325a" />
+Project : Agent Unveil
 
 A Smart Detection Agent for Brand Misrepresentation
 🔍 Overview
-
 Consumers often rely on product images, descriptions, and marketing claims to make buying decisions.
 However, brands sometimes exaggerate or misrepresent their products across e-commerce platforms, ads, and packaging.
 This leads to poor purchasing decisions, financial loss, or safety concerns.
@@ -104,18 +103,20 @@ Backend: Flask, Node.js, FastAPI, etc
 Database: PostgreSQL, MongoDB, etc
 Other: Docker, Redis, etc
 
+
 📂 Project Structure
-project/
-│── src/
-│   ├── api/
-│   ├── components/
-│   ├── pages/
-│   └── utils/
-│── tests/
-│── .env.example
-│── requirements.txt
-│── README.md
-│── LICENSE
+Agent-Unveil/
+│── app.py               # Main Flask backend
+│── scraping.py          # Google scraping + Gemini ingredient extraction
+│── templates/
+│     └── index.html     # Frontend UI
+│── requirements.txt     # Python dependencies
+│── .env                 # Environment variables (hidden)
+│── .gitignore           # Prevents .env and caches from being pushed
+│── README.md            # Project documentation
+│── grey.png             # Temporary OCR file
+│── __pycache__/         # Python cache (ignored)
+
 
 🛠 Installation
 
