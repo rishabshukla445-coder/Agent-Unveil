@@ -12,7 +12,6 @@ from scraping import google_scraping
 
 reader = easyocr.Reader(['en'], gpu=False)
 GENAI_API_KEY = os.getenv("GENAI_API_KEY")
-# genai.configure(api_key="AIzaSyDxcE1ETK3P3HyuhypMhbcQTwwiELd0QnA")
 genai.configure(api_key=GENAI_API_KEY)
 model = genai.GenerativeModel("gemini-2.5-flash")
 
