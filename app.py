@@ -18,10 +18,12 @@ model = genai.GenerativeModel("gemini-2.5-flash")
 app = Flask(__name__)
 
 
+# @app.route("/")
+# def home():
+#     return render_template('index.html')
 @app.route("/")
 def home():
-    return render_template('index.html')
-
+    return "App is running 🚀"
 
 @app.route('/process', methods=['POST'])
 def process_image():
