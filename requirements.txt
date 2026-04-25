@@ -1,6 +1,6 @@
 Flask==3.0.3
-opencv-python==4.9.0.80
-numpy==1.26.4
+opencv-python-headless==4.9.0.80
+numpy==1.24.4
 easyocr==1.7.2
 Pillow==10.4.0
 google-generativeai==0.7.2
@@ -9,3 +9,4 @@ beautifulsoup4==4.12.3
 lxml==5.2.1
 selenium==4.23.1
 torch==2.2.2
+torchvision==0.17.2
