@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: agent-unveil
+    runtime: python
+    pythonVersion: "3.11"
+    buildCommand: |
+      pip install torch==2.2.2+cpu torchvision==0.17.2+cpu --index-url https://download.pytorch.org/whl/cpu
+      pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: GENAI_API_KEY
+        sync: false
